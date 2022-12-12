@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+  <div class="container">
+    <h2><b>@{{post.author}}</b></h2>
+    <h4>Created at: {{post.created}} </h4>
+    <br>
+    <br>
+    <h3><b>{{post.title}}</b></h3>
+    <h3>{{post.body}}</h3>
+    <h5>Last Updated:{{post.updated}}</h5>
+    <a class="btn btn-info btn-lg" href="{% url 'home' %}">Back</a>
+    <a class="btn btn-danger btn-lg" href="{% url 'post_delete' post.id %}">Delete</a>
+  </div>
+
+  
+{% endblock %}
+
