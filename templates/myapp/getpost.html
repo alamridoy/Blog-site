@@ -1,19 +1,75 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<!-- <style>
+  .comment {
+    width: 40%;
+    height: 100px;
+    padding: 10px;
+    background-color: #d0e2bc;
+    font: 1.4em/1.6em cursive;
+    color: #095484;
+  }
+</style> -->
+
+
 
   <div class="container">
-    <h2><b>@{{post.author}}</b></h2>
+    <h3><b>@{{post.author}}</b></h3>
     <h4>Created at: {{post.created}} </h4>
     <br>
     <br>
-    <h3><b>{{post.title}}</b></h3>
+    <h2><b>{{post.title}}</b></h2>
     <h3>{{post.body}}</h3>
     <h5>Last Updated:{{post.updated}}</h5>
     <a class="btn btn-info btn-lg" href="{% url 'home' %}">Back</a>
+    {% if user.is_authenticated %}
+    <a class="btn btn-primary btn-lg" href="{% url 'updatePost' post.id %}">Update Post</a>
     <a class="btn btn-danger btn-lg" href="{% url 'post_delete' post.id %}">Delete</a>
+    {% endif %}
+  </div>
+<div class="container">
+ <div class="row">
+  <div class="col-md-8">
+
+    <div class="comments-container">
+      <h1>{{post.comment_set.all.count}} Comments</h1>
+      {% if request.user.is_authenticated %}
+      <!-- <form method="POST" action="">
+          {% csrf_token %}
+          <input type="text" name="comment" placeholder="Type your Comment here...">
+      </form> -->
+      
+    
+      <form  method="POST">
+        {% csrf_token %}
+        <input class="form-control" type="text" name="comment" placeholder="Type your Comment here...">
+        <br>
+        <input class=" btn btn-success btn-lg" type="submit" name="submit" value="Send"><br><br>
+      </form>
+      {% endif %}
+    
+      <div class="comments-wrapper">
+          {% for comment in post.comment_set.all %}
+          <div class="comment">
+              <div class="comment-header">
+                  <h2>{{comment.author}}</h2>
+                  <h4>{{comment.comment}}</h4>
+                  <p>{{comment.updated}}</p>
+                  
+              </div>
+          <hr/>
+          {% endfor %}
+          </div>
+      </div>
+    
+  
+  
   </div>
 
-  
+
+
+  </div>
+ </div>
 {% endblock %}
 

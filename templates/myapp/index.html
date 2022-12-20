@@ -11,12 +11,15 @@
   
 {% for posts in post %}
 <div class="container_copy">
+  <h2><b>@{{posts.author}}</b></h2>
   <h3>Created at: {{posts.created}}</h3>
   <h1><a href="{% url 'post_details' posts.id %}">{{posts.title}}</a></h1>
-  <p>{{posts.body}}</p>
+  <p>{{posts.body|safe|truncatewords:"50"|linebreaks}}</p>
   <p>last{{posts.updated}}</p>
-  <a class="btn_primary" href='#' target="_blank">Read More</a>
+  <a class="btn_primary" href='{% url 'post_details' posts.id %}' target="_blank">Read More</a>
 </div>
+{% empty %}
+ <h2>No post to show</h2>
 <hr>
 {% endfor %}
 </div> 
